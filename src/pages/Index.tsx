@@ -1,8 +1,7 @@
-
 import { useState } from "react";
 import { BarChart2, Brain, CheckCircle, LineChart, PieChart, User, Users } from "lucide-react";
-import Navbar from "@/components/Layout/Navbar";
-import Footer from "@/components/Layout/Footer";
+import { Navbar } from "@/components/Layout/Navbar";
+import { Footer } from "@/components/Layout/Footer";
 import AssessmentCard from "@/components/Dashboard/AssessmentCard";
 import StatCard from "@/components/Dashboard/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,7 +17,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Sales Competency Navigator</h1>
+              <h1 className="text-2xl font-bold text-gray-900">SalesPulse</h1>
               <p className="text-gray-500 mt-1">
                 Comprehensive evaluation tools to assess sales professionals
               </p>

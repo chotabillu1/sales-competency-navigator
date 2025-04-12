@@ -71,3 +71,92 @@ Yes it is!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+# SalesPulse - Sales Talent Intelligence Assessment Platform
+
+## Folder Structure
+
+```
+src/
+├── components/           # Reusable UI components
+│   ├── ui/              # Basic UI components (buttons, cards, etc.)
+│   ├── layout/          # Layout components (navbar, sidebar, etc.)
+│   ├── assessment/      # Assessment-specific components
+│   ├── reports/         # Report-specific components
+│   └── analytics/       # Analytics-specific components
+│
+├── context/             # React Context providers and hooks
+│   ├── AppContext.tsx   # Main application context
+│   └── AuthContext.tsx  # Authentication context
+│
+├── hooks/               # Custom React hooks
+│   ├── use-toast.ts
+│   └── use-auth.ts
+│
+├── lib/                 # Utility functions and services
+│   ├── api/            # API service functions
+│   ├── utils/          # Helper functions
+│   └── constants/      # Constants and configuration
+│
+├── pages/              # Page components
+│   ├── auth/          # Authentication pages
+│   ├── assessment/    # Assessment pages
+│   ├── reports/       # Report pages
+│   └── analytics/     # Analytics pages
+│
+├── types/             # TypeScript type definitions
+│   ├── schema.ts     # Database schema types
+│   └── api.ts        # API types
+│
+├── styles/           # Global styles and theme
+│   ├── globals.css
+│   └── theme.ts
+│
+├── data/            # Static data and mock data
+│   ├── questions/   # Assessment questions
+│   └── mock/        # Mock data for development
+│
+└── assets/         # Static assets (images, icons, etc.)
+    ├── images/
+    └── icons/
+
+public/             # Public assets
+├── images/
+└── icons/
+
+tests/             # Test files
+├── unit/
+├── integration/
+└── e2e/
+```
+
+## Database Schema
+
+The application uses the following main entities:
+
+1. User
+   - Personal information
+   - Role and permissions
+   - Company and department
+
+2. Assessment
+   - Multiple types (personality, intelligence, competency)
+   - Questions and responses
+   - Scores and results
+
+3. Report
+   - Individual and team reports
+   - Metrics and insights
+   - Recommendations
+
+4. Team
+   - Team structure
+   - Member management
+   - Department organization
+
+5. Analytics
+   - Performance metrics
+   - Trends and comparisons
+   - Insights and predictions
+
+For detailed type definitions, see `src/types/schema.ts`.
