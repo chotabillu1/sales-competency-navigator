@@ -101,12 +101,22 @@ export const PersonalityAssessmentResults: React.FC = () => {
     return categoryDescriptions[category].recommendations.low;
   };
 
+  const getScoreLabel = (percentage: number) => {
+    if (percentage >= 80) return { label: 'Excellent', color: 'bg-green-100 text-green-800' };
+    if (percentage >= 65) return { label: 'Good', color: 'bg-blue-100 text-blue-800' };
+    if (percentage >= 50) return { label: 'Average', color: 'bg-yellow-100 text-yellow-800' };
+    return { label: 'Needs Improvement', color: 'bg-red-100 text-red-800' };
+  };
+
   if (!scores) return null;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <Button variant="ghost" onClick={() => navigate('/assessments')} className="mb-4">
+        <Button 
+          className="bg-blue-600 text-white hover:bg-blue-700 mb-4"
+          onClick={() => navigate('/instant-evaluation')}
+        >
           <ArrowLeft className="mr-2 h-4 w-4" /> Back to Assessments
         </Button>
         <h1 className="text-2xl font-bold text-gray-900 flex items-center">
@@ -138,7 +148,12 @@ export const PersonalityAssessmentResults: React.FC = () => {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-500">Score</span>
-                    <span className="font-semibold">{score.percentage}%</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold">{score.percentage}%</span>
+                      <span className={`text-sm px-2 py-1 rounded ${getScoreLabel(score.percentage).color}`}>
+                        {getScoreLabel(score.percentage).label}
+                      </span>
+                    </div>
                   </div>
                   <Progress value={score.percentage} className="h-2" />
                   <div className="flex items-start space-x-2 mt-4">
@@ -163,20 +178,65 @@ export const PersonalityAssessmentResults: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <p className="text-gray-600">
-              Based on your assessment results, here are some key areas to focus on:
-            </p>
-            <ul className="list-disc list-inside space-y-2 text-gray-600">
-              {Object.entries(scores)
-                .sort(([, a], [, b]) => a.percentage - b.percentage)
-                .slice(0, 3)
-                .map(([category]) => (
-                  <li key={category}>
-                    {categoryDescriptions[category as keyof typeof categoryDescriptions].title}
-                  </li>
-                ))}
-            </ul>
-            <div className="mt-4">
+            {/* Overall Score */}
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm text-gray-500">Overall Score</span>
+                <div className="flex items-center gap-2">
+                  {(() => {
+                    const avgScore = Math.round(
+                      Object.values(scores).reduce((sum, score) => sum + score.percentage, 0) / 
+                      Object.keys(scores).length
+                    );
+                    return (
+                      <>
+                        <span className="font-semibold">{avgScore}%</span>
+                        <span className={`text-sm px-2 py-1 rounded ${getScoreLabel(avgScore).color}`}>
+                          {getScoreLabel(avgScore).label}
+                        </span>
+                      </>
+                    );
+                  })()}
+                </div>
+              </div>
+              <Progress 
+                value={
+                  Object.values(scores).reduce((sum, score) => sum + score.percentage, 0) / 
+                  Object.keys(scores).length
+                } 
+                className="h-2" 
+              />
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="font-medium text-gray-900">Key Strengths</h3>
+              <ul className="list-disc list-inside space-y-2 text-gray-600">
+                {Object.entries(scores)
+                  .sort(([, a], [, b]) => b.percentage - a.percentage)
+                  .slice(0, 2)
+                  .map(([category, score]) => (
+                    <li key={category} className="flex items-center justify-between">
+                      <span>{categoryDescriptions[category as keyof typeof categoryDescriptions].title}</span>
+                      <span className="font-medium">{score.percentage}%</span>
+                    </li>
+                  ))}
+              </ul>
+
+              <h3 className="font-medium text-gray-900 mt-4">Areas for Improvement</h3>
+              <ul className="list-disc list-inside space-y-2 text-gray-600">
+                {Object.entries(scores)
+                  .sort(([, a], [, b]) => a.percentage - b.percentage)
+                  .slice(0, 2)
+                  .map(([category, score]) => (
+                    <li key={category} className="flex items-center justify-between">
+                      <span>{categoryDescriptions[category as keyof typeof categoryDescriptions].title}</span>
+                      <span className="font-medium">{score.percentage}%</span>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+
+            <div className="mt-6">
               <Button 
                 className="bg-blue-600 text-white hover:bg-blue-700"
                 onClick={() => navigate('/instant-evaluation')}
